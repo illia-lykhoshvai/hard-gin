@@ -1,0 +1,25 @@
+{% extends "body.html" %}
+{% block title %}File Browser{% endblock %}
+{% block head_header %}
+<link rel="stylesheet" href="static/browser.css">
+{% endblock %}
+{% block content %}
+    <table border="1">
+        {% for file in files_table %}
+        <tr>
+            <td class="name-div">
+                <a href="{{ (request.path + '/' if request.path != '/' else '') + file.name }}">
+                    {{ (request.path + '/' if request.path != '/' else '') + file.name }}
+                </a>
+            </td>
+            <td>
+                <div class="wrapper">
+                    {% for parameter in file.parameters %}
+                        <div> {{ parameter }} </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
