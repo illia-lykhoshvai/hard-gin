@@ -1,8 +1,10 @@
 from bokeh.plotting import figure
+from bokeh.models import Spinner
+from bokeh.layouts import column,row
 from bokeh.palettes import Category20_20
 from bokeh.embed import components
 
-used_tools = 'hover,wheel_zoom,reset,pan'
+used_tools = 'hover,wheel_zoom,box_zoom,reset,pan'
 TOOLTIPS = [ 
     ("argument is", "@x"),
     ("data is", "@y")
@@ -39,14 +41,30 @@ def getPlot(filePass: str):
         except:
             pass
 
-    plt = figure(name = "bokeh_jinja_figure",title=f"Air-correction charts of {filePass}", x_axis_label="argument", y_axis_label="data",
-                 width=1500, height=800, tools=used_tools,tooltips= TOOLTIPS, toolbar_location="below")
+    fig = figure(name = "bokeh_jinja_figure",title=f"Air-correction charts of {filePass}", 
+                 x_axis_label="argument", y_axis_label="data",
+                 sizing_mode="stretch_both",
+                 tools=used_tools,tooltips= TOOLTIPS, toolbar_location="below")
 
-    pallete = Category20_20.__iter__()
+    controls = {
+        "y_range/start": Spinner(title="Y_start", step=1, value=-10),
+        "y_range/end": Spinner(title="Y_end", step=1, value=10),
+        "x_range/start": Spinner(title="X_start", low=0, step=1, value=0),
+        "x_range/end": Spinner(title="X_end", low=1, step=1)
+    }
+    controls["y_range/start"].js_link('value', getattr(fig,"y_range"), 'start')
+    controls["y_range/end"].js_link('value', getattr(fig,"y_range"), 'end')
+    controls["x_range/start"].js_link('value', getattr(fig,"x_range"), 'start')
+    controls["x_range/end"].js_link('value', getattr(fig,"x_range"), 'end')
+    controls_array = controls.values()
+
+    palette = Category20_20.__iter__()
     for i in range(1,len(names)):
-        plt.line(indexes, lines_data[i], legend_label =f"{names[i]}", color=next(pallete))
+        fig.line(indexes, lines_data[i], legend_label =f"{names[i]}", color=next(palette))
 
-    plt.add_layout(plt.legend[0],'right')
-    plt.legend.click_policy="hide"
+    fig.add_layout(fig.legend[0],'right')
+    fig.legend.click_policy="hide"
 
+    controls = column(*controls_array, width=80)
+    plt = row([controls, fig])
     return plt

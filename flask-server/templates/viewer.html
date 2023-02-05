@@ -1,34 +1,18 @@
 {% extends "body.html" %}
 {% block title %}Viewer{% endblock %}
 {% block head_header %}
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.2.3/bokeh.min.css"
-        rel="stylesheet" type="text/css">
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.2.3/bokeh-widgets.css"
-        rel="stylesheet" type="text/css">
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.2.3/bokeh-tables.css"
-        rel="stylesheet" type="text/css">
-    <style>
-        .fcc-btn {
-            background-color: #199319;
-            color: white;
-            padding: 15px 25px;
-            margin: 30px 30px;
-            text-decoration: none;
-          }
-    </style>
+    <link rel="stylesheet" href="static/viewer.css">
 {% endblock %}
 {% block content %}      
     <a href="{{ url_for('browser.list_dir', req_path='') }}" class="fcc-btn">Home</a>
-    <div>
+    <div class="bokeh-div">
         {{ div|safe }}
         {{ script|safe }}
     </div>
 {% endblock %}
 {%block scripts%}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.4.2/bokeh.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.4.2/bokeh-widgets.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/2.4.2/bokeh-tables.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.3.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.3.min.js"
+            crossorigin="anonymous"></script>
 {% endblock %}

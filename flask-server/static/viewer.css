@@ -1,0 +1,16 @@
+body {
+  margin-left: 0px;
+}
+
+.fcc-btn {
+  background-color: #199319;
+  color: white;
+  padding: 15px;
+  text-decoration: none;
+}
+
+.bokeh-div {
+  padding: 10px;
+  width: 98%;
+  height: max-content;
+}
